@@ -70,9 +70,11 @@
 #include "VaryingRestitution.h"
 #include "VerticalStack.h"
 #include "Web.h"
+#include "Pingpang.h"
 
 TestEntry g_testEntries[] =
 {
+	{ "Pingpang", Pingpang::Create },
 	{"Character Collision", CharacterCollision::Create},
 	{"Tiles", Tiles::Create},
 	{"Heavy on Light", HeavyOnLight::Create},
