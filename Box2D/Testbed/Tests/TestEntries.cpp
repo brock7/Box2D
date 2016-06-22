@@ -71,9 +71,11 @@
 #include "VerticalStack.h"
 #include "Web.h"
 #include "Pingpang.h"
+#include "HelloWorld.h"
 
 TestEntry g_testEntries[] =
 {
+	{ "Hello, World", HelloWorld::Create },
 	{ "Pingpang", Pingpang::Create },
 	{"Character Collision", CharacterCollision::Create},
 	{"Tiles", Tiles::Create},
