@@ -42,25 +42,29 @@ public:
 				v3(GroundWidth / 2, 0.0f), v4(-GroundWidth / 2, 0.0f);
 
 			b2EdgeShape shape;
+			b2Fixture* fixture1;
 
 			shape.Set(v1, v2);
-			ground->CreateFixture(&shape, 0.0f);
+			fixture1 = ground->CreateFixture(&shape, 0.0f);
+			fixture1->SetRestitution(0.8f);
 
 			shape.Set(v2, v3);
-			ground->CreateFixture(&shape, 0.0f);
+			fixture1 = ground->CreateFixture(&shape, 0.0f);
+			fixture1->SetRestitution(0.8f);
 
-			shape.Set(v3, v4);
-			ground->CreateFixture(&shape, 0.0f);
+			// shape.Set(v3, v4);
+			// ground->CreateFixture(&shape, 0.0f);
 
 			shape.Set(v4, v1);
-			ground->CreateFixture(&shape, 0.0f);
+			fixture1 = ground->CreateFixture(&shape, 0.0f);
+			fixture1->SetRestitution(0.8f);
 		}
 
 		// Çò
 		{
 			b2BodyDef bd;
 			bd.type = b2_dynamicBody;
-			bd.position.Set(-0.0f, 5.0f);
+			bd.position.Set(-0.0f, 30.0f);
 			bd.allowSleep = false;
 
 			b2Body* body = m_world->CreateBody(&bd);
@@ -71,7 +75,7 @@ public:
 			shape.m_radius = 0.7f;
 
 			b2Fixture* fixture1 = body->CreateFixture(&shape, 1.0f);
-			fixture1->SetRestitution(0.9f);
+			fixture1->SetRestitution(0.8f);
 
 			/* shape.m_radius = 0.9f;
 			b2Fixture* fixture2 = body->CreateFixture(&shape, 1.0f);
@@ -87,7 +91,7 @@ public:
 			b2Body* body = m_world->CreateBody(&bd);
 			body->SetUserData((void *)3);
 			b2Fixture* fixture1 = body->CreateFixture(&shape, 0.0f);
-			fixture1->SetRestitution(2.0f);
+			fixture1->SetRestitution(1.2f);
 			m_bat = body;
 		}
 
@@ -152,7 +156,7 @@ public:
 
 			b2Transform tr = m_bat->GetTransform();
 			tr.p.x += m_moveDist;
-			if (tr.p.x > (-GroundWidth / 2.0f) && tr.p.x < (GroundWidth / 2.0f)) {
+			if (tr.p.x > (-GroundWidth / 2.0f + BoxWidth / 2.0) && tr.p.x < (GroundWidth / 2.0f - BoxWidth / 2.0)) {
 				m_bat->SetTransform(tr.p, tr.q.GetAngle());
 			}
 		}
@@ -162,8 +166,16 @@ public:
 			if (b->GetUserData() == (void*)1)
 				boxcount++;
 
-		if (boxcount == 0)
+		if (boxcount == 0) {
+			g_debugDraw.DrawString(5, 0, "Mission Completed");
+			m_ball->SetActive(false);		
+		}
+
+		b2Transform tr = m_ball->GetTransform();
+		if (tr.p.y < -20) {
 			g_debugDraw.DrawString(5, 0, "Game Over");
+			m_ball->SetActive(false);
+		}
 	}
 
 	void Keyboard(int key)

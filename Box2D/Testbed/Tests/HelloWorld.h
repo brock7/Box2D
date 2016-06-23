@@ -84,7 +84,7 @@ public:
 	void Step(Settings* settings)
 	{
 		Test::Step(settings);
-		
+		printf("ball mass: %f\n", m_ball->GetMass());
 	}
 
 	void Keyboard(int key)
@@ -92,11 +92,13 @@ public:
 		switch (key)
 		{
 		case GLFW_KEY_W:
-			m_ball->ApplyForce(b2Vec2(0, 50), m_ball->GetWorldCenter(), true);
+			// m_ball->ApplyForce(b2Vec2(0, 50), m_ball->GetWorldCenter(), true);
+			m_ball->ApplyLinearImpulseToCenter(b2Vec2(0, 10), true);
 			break;
 
 		case GLFW_KEY_S:
-			m_ball->ApplyForce(b2Vec2(0, -50), m_ball->GetWorldCenter(), true);
+			m_ball->ApplyLinearImpulseToCenter(b2Vec2(0, -10), true);
+			// m_ball->ApplyForce(b2Vec2(0, -50), m_ball->GetWorldCenter(), true);
 			break;
 		}
 		
