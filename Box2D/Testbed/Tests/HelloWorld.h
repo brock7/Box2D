@@ -68,8 +68,9 @@ public:
 			b2CircleShape shape;
 			shape.m_radius = 0.7f;
 
-			b2Fixture* fixture1 = body->CreateFixture(&shape, 1.0f);
-			fixture1->SetRestitution(0.9f);
+			b2Fixture* fixture1 = body->CreateFixture(&shape, 0.0f);
+			fixture1->SetRestitution(0.8f);
+			//fixture1->SetFriction(1.0f);
 
 			m_ball = body;
 
