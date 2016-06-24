@@ -78,7 +78,35 @@ public:
 			fixture2->SetRestitution(1.0f); */
 		}
 
-	
+		{
+			b2BodyDef bd;
+			bd.position.Set(-0.0f, 0.25f);
+			bd.type = b2_dynamicBody;
+			b2PolygonShape shape;
+			shape.SetAsBox(2.0f, 2.5f, bd.position, 0.0f);
+			b2Body* body = m_world->CreateBody(&bd);
+			body->SetUserData((void *)3);
+			m_box = body;
+			b2Fixture* fixture1 = body->CreateFixture(&shape, 0.0f);
+		}
+		
+		// 距离关节
+		// 两个物体锚点的相对距离永远不变
+		/* b2DistanceJointDef jd;
+		jd.Initialize(m_box, m_ball, m_box->GetWorldCenter(), m_ball->GetWorldCenter());
+		m_world->CreateJoint(&jd); */
+
+		// 旋转关节
+		// 
+		b2RevoluteJointDef jd;
+		jd.Initialize(m_box, m_ball, b2Vec2(10, 10));
+		m_world->CreateJoint(&jd);
+
+		// 移动关节
+		// 两个物体的相对角度永远不变
+		/* b2PrismaticJointDef jd;
+		jd.Initialize(m_box, m_ball, m_box->GetWorldCenter(), b2Vec2(10, 10));
+		m_world->CreateJoint(&jd); */
 	}
 
 	void Step(Settings* settings)
@@ -121,6 +149,7 @@ public:
 	}
 
 	b2Body*			m_ball;
+	b2Body*			m_box;
 
 };
 
